@@ -239,10 +239,10 @@ int main()
 // #endif
 
     run_test = 2;
-
-	#ifdef _MSC_VER
-		WaitForMultipleObjects(NUM_THREADS - 1, thread, TRUE, INFINITE);
-	#endif
+	
+    #ifdef _MSC_VER
+	WaitForMultipleObjects(NUM_THREADS - 1, thread, TRUE, INFINITE);
+    #endif
 
     for (i=0;i<NUM_THREADS;i++) {
         #ifdef _MSC_VER
