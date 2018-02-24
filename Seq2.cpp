@@ -171,12 +171,12 @@ int main()
 {
     int i;
     #ifdef _MSC_VER
-		HANDLE thread[NUM_THREADS];
-	#elif defined(__GNUC__)
-		pthread_t thread[NUM_THREADS];
-	#else
+	HANDLE thread[NUM_THREADS];
+    #elif defined(__GNUC__)
+	pthread_t thread[NUM_THREADS];
+    #else
         printf("error\n");
-	#endif
+    #endif
 
     fill();
 
