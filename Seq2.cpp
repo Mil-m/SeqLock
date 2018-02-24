@@ -1,19 +1,19 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #ifdef _MSC_VER
-	#include <windows.h>
-	#include <process.h>
+    #include <windows.h>
+    #include <process.h>
 #elif defined(__GNUC__)
-	#include <pthread.h>
-	#include <unistd.h>
+    #include <pthread.h>
+    #include <unistd.h>
 #endif
 #define NUM_THREADS	4
 
 typedef struct { int empty; } spinlock_t;
 
 typedef struct {
-	volatile unsigned sequence;
-	spinlock_t lock;
+    volatile unsigned sequence;
+    spinlock_t lock;
 } seqlock_t;
 //sequence - порядковый номер
 //lock - блокировка
@@ -53,9 +53,9 @@ void spin_lock(spinlock_t* locked)
 
 void write_lock(seqlock_t *sl)
 {
-	spin_lock(&sl->lock);
-	sl->sequence++;
-	return;
+    spin_lock(&sl->lock);
+    sl->sequence++;
+    return;
 }
 
 void spin_unlock(spinlock_t* locked)
@@ -74,9 +74,9 @@ void spin_unlock(spinlock_t* locked)
 
 void write_unlock(seqlock_t *sl)
 {
-	sl->sequence++;
-	spin_unlock(&sl->lock);
-	return;
+    sl->sequence++;
+    spin_unlock(&sl->lock);
+    return;
 }
 
 //----------------------------------------------------------------------------------reader
@@ -90,12 +90,12 @@ void* buf;
 
 int function_reading(int n)
 {
-	int i;
-	int sum = 0;
-	for (i=0; i<n; i++) {
-	    sum += mas[i];
-	}
-	return sum;
+    int i;
+    int sum = 0;
+    for (i=0; i<n; i++) {
+        sum += mas[i];
+    }
+    return sum;
 }
 
 inline int prov_bit(seqlock_t *sl) {
@@ -115,11 +115,11 @@ inline int prov_writer(int count, seqlock_t *sl) {
 }
 
 #ifndef _MSC_VER
-	void *
+    void *
 #else
-	unsigned __stdcall
+    unsigned __stdcall
 #endif
-	read_seqlock(void* buf)
+    read_seqlock(void* buf)
 {
     volatile int count, sum; //, j;
     while (!run_test) {}
@@ -150,13 +150,13 @@ void fill( void )
 }
 
 #ifndef _MSC_VER
-	void *
+    void *
 #else
-	unsigned __stdcall
+    unsigned __stdcall
 #endif
-	write_seqlock(void* buf)
+    write_seqlock(void* buf)
 {
-//    int j;
+//  int j;
     while (!run_test) {}
 //    for (j=0; j<10000000; j++) {
     while (run_test!=2) {
