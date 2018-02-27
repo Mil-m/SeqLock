@@ -25,28 +25,28 @@ void spin_lock(spinlock_t* locked)
 {
     int perem = 1;
     #ifdef _MSC_VER
-    for (;;) {
-        __asm {	// __asm__
-	    mov		eax, perem
-            mov		ebx, locked
-            xchg    eax, dword ptr [ebx]
-            mov     perem, eax
-            mov     locked, ebx
+        for (;;) {
+            __asm {	// __asm__
+	        mov		eax, perem
+                mov		ebx, locked
+                xchg    eax, dword ptr [ebx]
+                mov     perem, eax
+                mov     locked, ebx
+            }
+            if (perem == 0) {
+                break;
+            }
         }
-        if (perem == 0) {
-            break;
-        }
-    }
     #elif defined(__GNUC__)
-    for (;;) {
-        asm volatile (
-            "xchg %0,%1\n\t"
-            : "=r" (perem)
-            : "m" (*locked), "0" (perem));
-        if (perem == 0) {
-            break;
+        for (;;) {
+            asm volatile (
+                "xchg %0,%1\n\t"
+                : "=r" (perem)
+                : "m" (*locked), "0" (perem));
+            if (perem == 0) {
+                break;
+            }
         }
-    }
     #endif
     return;
 }
