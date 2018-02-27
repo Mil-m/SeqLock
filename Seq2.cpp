@@ -115,11 +115,11 @@ inline int prov_writer(int count, seqlock_t *sl) {
 }
 
 #ifndef _MSC_VER
-	void *
+    void *
 #else
-	unsigned __stdcall
+    unsigned __stdcall
 #endif
-	read_seqlock(void* buf)
+    read_seqlock(void* buf)
 {
     volatile int count, sum; //, j;
     while (!run_test) {}
@@ -141,20 +141,20 @@ void fill( void )
     int i, t;
     t = rand()%10;
     for (i=0; i<10; i++) {
-       mas[t] = i;
-       t++;
-       if (t >= 10) {
+        mas[t] = i;
+        t++;
+        if (t >= 10) {
             t = 0;
-       }
+        }
     }
 }
 
 #ifndef _MSC_VER
-	void *
+    void *
 #else
-	unsigned __stdcall
+    unsigned __stdcall
 #endif
-	write_seqlock(void* buf)
+    write_seqlock(void* buf)
 {
 //    int j;
     while (!run_test) {}
