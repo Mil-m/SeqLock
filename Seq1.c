@@ -1,19 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #ifdef _MSC_VER
-	#include <windows.h>
-	#include <process.h>
+    #include <windows.h>
+    #include <process.h>
 #elif defined(__GNUC__)
-	#include <pthread.h>
-	#include <unistd.h>
+    #include <pthread.h>
+    #include <unistd.h>
 #endif
 #define NUM_THREADS	4
 
 typedef struct { int empty; } spinlock_t;
 
 typedef struct {
-	volatile unsigned sequence;
-	spinlock_t lock;
+    volatile unsigned sequence;
+    spinlock_t lock;
 } seqlock_t;
 //sequence - порядковый номер
 //lock - блокировка
@@ -38,26 +38,26 @@ void spin_lock(spinlock_t* locked)
 
 void write_lock(seqlock_t *sl)
 {
-	spin_lock(&sl->lock);
-	sl->sequence++;
-	return;
+    spin_lock(&sl->lock);
+    sl->sequence++;
+    return;
 }
 
 void spin_unlock(spinlock_t* locked)
 {
     int perem = 0;
     asm volatile (
-            "xchg %0,%1\n\t"
-            : "=r" (perem)
-            : "m" (*locked), "0" (perem));
+        "xchg %0,%1\n\t"
+        : "=r" (perem)
+        : "m" (*locked), "0" (perem));
     return;
 }
 
 void write_unlock(seqlock_t *sl)
 {
-	sl->sequence++;
-	spin_unlock(&sl->lock);
-	return;
+    sl->sequence++;
+    spin_unlock(&sl->lock);
+    return;
 }
 
 //----------------------------------------------------------------------------------reader
@@ -70,12 +70,12 @@ int ERR = 0;
 
 int function_reading(int n)
 {
-	int i;
-	int sum = 0;
-	for (i=0; i<n; i++) {
-	    sum += mas[i];
-	}
-	return sum;
+    int i;
+    int sum = 0;
+    for (i=0; i<n; i++) {
+        sum += mas[i];
+    }
+    return sum;
 }
 
 inline int prov_bit(seqlock_t *sl) {
@@ -116,14 +116,14 @@ void* read_seqlock()
 void fill( void )
 {
     int i, t;
-        t = rand()%10;
-        for (i=0; i<10; i++) {
-            mas[t] = i;
-            t++;
-            if (t >= 10) {
-                t = 0;
-            }
+    t = rand()%10;
+    for (i=0; i<10; i++) {
+        mas[t] = i;
+        t++;
+        if (t >= 10) {
+            t = 0;
         }
+    }
 }
 
 
