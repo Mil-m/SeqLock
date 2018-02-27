@@ -112,7 +112,6 @@ void* read_seqlock()
     return NULL;
 }
 
-
 void fill( void )
 {
     int i, t;
@@ -125,7 +124,6 @@ void fill( void )
         }
     }
 }
-
 
 void* write_seqlock()
 {
