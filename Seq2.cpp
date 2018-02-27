@@ -62,12 +62,12 @@ void spin_unlock(spinlock_t* locked)
 {
     int perem = 0;
     #ifdef _MSC_VER
-    locked->empty = 0;
-	#elif defined(__GNUC__)
-    asm volatile (
-        "xchg %0,%1\n\t"
-        : "=r" (perem)
-        : "m" (*locked), "0" (perem));
+        locked->empty = 0;
+    #elif defined(__GNUC__)
+        asm volatile (
+            "xchg %0,%1\n\t"
+            : "=r" (perem)
+            : "m" (*locked), "0" (perem));
     #endif
     return;
 }
